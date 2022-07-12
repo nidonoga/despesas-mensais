@@ -1,6 +1,6 @@
 # despesas-mensais
 
-Este projeto tem como objetivo implementar progressivamente e de forma didática uma aplicação web para o controle de despesas mensais. (ex: Cadastrar despesas mensais, Lançar proventos e retiradas, Contabilizar saldo e Fazer agendamentos)
+Este projeto tem como objetivo implementar uma aplicação web para o controle de despesas mensais. (ex: Cadastrar despesas mensais, Lançar proventos e retiradas, Contabilizar saldo e Fazer agendamentos)
 
 
 # Endereço de Deploy - GitHub Pages
