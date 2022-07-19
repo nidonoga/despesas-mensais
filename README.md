@@ -7,6 +7,10 @@ Este projeto tem como objetivo implementar uma aplicação web para o controle d
 
 https://github.com/nidonoga/despesas-mensais
 
+# Protótipo
+
+https://www.figma.com/file/ZpYWnPO1BdlYdyEMKxApKw/Projeto-Finan%C3%A7as?node-id=4%3A55
+
 # Checklist
 
 - [x] Criar o repositório no GitHub com a estrutura do Gitflow, ou seja, branches main e develop.
