@@ -1,0 +1,45 @@
+<div class="container expenses">
+
+
+  <h5>Janeiro/2022</h5>
+
+  <table class="striped centered">
+    <thead>
+      <tr>
+          <th>#</th>
+          <th>Nome</th>
+          <th>Valor</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let movem of movements">
+        <td>{{movem.sequence}}</td>
+        <td>{{movem.name}}</td>
+        <td>{{movem.value}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <h5>Total: {{total}}</h5>
+
+  <div class="row">
+    <div class="input-field col s6">
+
+      <input
+        id="teste-two-way-data-binding-input"
+        name="teste-two-way-data-binding-input"
+        [(ngModel)]="this.testeTwoWayDataBindingInput"
+        type="text"
+      />
+      <label for="teste-two-way-data-binding-input">Teste two way data binding</label>
+    </div>
+    <div class="input-field col s6">
+      <p>Valor: {{this.testeTwoWayDataBindingInput}}</p>
+    </div>
+  </div>
+
+
+
+</div>
