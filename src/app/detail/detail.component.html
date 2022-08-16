@@ -1,0 +1,43 @@
+<div class="container expenses">
+
+
+  <div class="row">
+    <div class="col s12" style="text-align: right;margin-bottom: 1em;margin-top: 2em;">
+      <h4>Janeiro/2022</h4>
+    </div>
+  </div>
+
+
+
+
+  <div class="s12">
+    <div class="divider"></div>
+    <div class="section">
+      <h5>ID:</h5>
+      <p>{{movimento.id}}</p>
+    </div>
+    <div class="divider"></div>
+    <div class="section">
+      <h5>Nome:</h5>
+      <p>{{movimento.name}}</p>
+    </div>
+    <div class="divider"></div>
+    <div class="section">
+      <h5>Valor: 2</h5>
+      <p>{{movimento.value | currency: "BRL"}}</p>
+    </div>
+    <div class="divider"></div>
+    <div class="section">
+      <h5>Observação:</h5>
+      <p>{{movimento.note}}</p>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top: 2em;">
+    <div class="col s6" style="text-align: left;padding-left: 0%;">
+      <a routerLink="/" class="waves-effect blue-grey darken-2 btn"><i class="material-icons left">arrow_back</i>Voltar</a>
+    </div>
+  </div>
+
+</div>
+

@@ -5,8 +5,15 @@
 
 <!-- main -->
 <main>
-  <app-home></app-home>
+  <router-outlet></router-outlet>
 </main>
 <!-- fim main -->
 
-<app-footer></app-footer>
+<app-footer>
+  <div style="margin-right: 20px;">
+    <span style="font-weight: bold">
+      {{this?.currentDate | date: "HH:mm:ss"}}
+    </span>
+    - Latitude: {{ this.coords?.latitude }} e Longitude: {{ this.coords?.longitude }}
+  </div>
+</app-footer>
