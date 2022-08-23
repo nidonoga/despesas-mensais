@@ -1,0 +1,191 @@
+
+
+<div class="container">
+
+  <div class="row">
+    <div class="col s12" style="text-align: center;margin-bottom: 1em;margin-top: 2em;">
+      <h4>Cadastro de Lançamentos</h4>
+    </div>
+  </div>
+
+  <form class="col s12" #form="ngForm" (submit)="onSubmit()">
+
+    <div class="row">
+      <div class="input-field col s12">
+      <input
+        id="input-name"
+        name="input-name"
+        type="text"
+        class="validate"
+        [(ngModel)]="this.entry.name"
+        pattern="^(\s?[A-ZÀ-Ú][a-zà-ú]*)+(\s[a-zà-ú]*)*"
+        #name="ngModel"
+        required
+      />
+      <label for="input-name">Nome do lançamento *</label>
+      <div class="red-text" [hidden]="name.valid || name.untouched">
+        Por favor, informe o nome do lançamento.
+      </div>
+      <div class="red-text" *ngIf="name.errors?.['required'] && name.touched">
+        Por favor, o nome do lançamento é obrigatório.
+      </div>
+      <span
+        class="helper-text"
+        data-error="O campo é inválido, deve começar com letra maiúscula e não pode conter numeros"
+        data-success="Ok!">
+      </span>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="input-field col s12">
+        <label class="active" for="input-donation">Valor *</label>
+        <input
+          name="input-base-value"
+          type="text"
+          [(ngModel)]="this.entry.baseValue"
+          mask="separator.2"
+          [thousandSeparator]="'.'"
+          [decimalMarker]="','"
+
+          [dropSpecialCharacters]="true"
+          [showMaskTyped]="false"
+          class="validate"
+          required
+          #baseValue="ngModel"
+        />
+        <div class="red-text" [hidden]="baseValue.valid || baseValue.untouched">
+          Por favor, informe o valor.
+        </div>
+        <div class="red-text" *ngIf="baseValue.errors?.['required'] && baseValue.touched">
+          Valor é obrigatório.
+        </div>
+        <span
+          class="helper-text"
+          data-error="O campo é inválido"
+          data-success="Ok!">
+        </span>
+
+      </div>
+    </div>
+
+
+
+
+    <div class="row">
+      <label class="active" style="margin-left: 10px;">Data Vencimento *</label>
+      <div class="input-field col s12">
+
+        <input
+          id="input-birthday"
+          name="input-birthday"
+          type="date"
+          class="validate"
+          [(ngModel)]="this.entry.payDay"
+          #payDay="ngModel"
+          required
+        />
+
+        <div class="red-text" [hidden]="payDay.valid || payDay.untouched">
+          Por favor informe o vencimento.
+        </div>
+        <div class="red-text" *ngIf="payDay.errors?.['required'] && payDay.touched">
+          Vencimento é obrigatório.
+        </div>
+        <span
+          class="helper-text"
+          data-error="O campo é inválido"
+          data-success="Ok!">
+        </span>
+
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="input-field col s6">
+        <select
+          id="select-type"
+          name="select-type"
+          class="validate"
+          [(ngModel)]="this.entry.type"
+          #type="ngModel"
+          required>
+          <option value="" disabled selected>Selecione o tipo</option>
+          <option value="SAIDA">Saída</option>
+          <option value="ENTRADA">Entrada</option>
+        </select>
+        <label>Tipo *</label>
+
+        <div class="red-text" [hidden]="type.valid || type.untouched">
+          Por favor informe o vencimento.
+        </div>
+        <div class="red-text" *ngIf="type.errors?.['required'] && type.touched">
+          Vencimento é obrigatório.
+        </div>
+        <span
+          class="helper-text"
+          data-error="O campo é inválido"
+          data-success="Ok!">
+        </span>
+
+
+
+      </div>
+
+
+      <div class="input-field col s6">
+        <label>
+          <input
+            id="checkbox-allMonth"
+            name="checkbox-allMonth"
+            type="checkbox"
+            class="filled-in"
+            [(ngModel)]="this.entry.allMonth"/>
+          <span>Todo Mês</span>
+        </label>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="input-field col s12">
+        <textarea
+          id="textarea-note"
+          name="textarea-note"
+          [(ngModel)]="this.entry.note"
+          class="materialize-textarea"
+          data-length="10">
+        </textarea>
+        <label for="textarea-note">Observação</label>
+      </div>
+    </div>
+
+
+
+
+
+    <div class="row" style="margin-top: 2em;">
+      <div class="col s6" style="text-align: left;padding-left: 0%;">
+        <a routerLink="/entry-list" class="waves-effect blue-grey darken-2 btn"><i class="material-icons left">arrow_back</i>Voltar</a>
+      </div>
+      <div class="col s6" style="text-align: right;padding-right: 0%;">
+
+        <button
+          class="btn waves-effect waves-light blue-grey darken-2"
+          type="submit"
+          [disabled]="!form.valid">
+            Salvar
+          <i class="material-icons right">save</i>
+        </button>
+
+      </div>
+    </div>
+
+
+  </form>
+
+
+</div>
+
