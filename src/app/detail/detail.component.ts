@@ -23,7 +23,7 @@ export class DetailComponent implements OnInit {
 
   loadMovement(idParam: number) {
     let jsonTmp = localStorage.getItem('movements');
-    let movementTmp = new Movement(0,0,0,"",0,"");
+    let movementTmp = new Movement();
     if(jsonTmp != null) {
       var locations: Array<Movement> = JSON.parse(jsonTmp);
       locations.forEach(element => {

@@ -9,32 +9,48 @@
   </div>
 
 
-  <table class="striped centered">
-    <thead>
-      <tr>
-          <th>#</th>
-          <th>Nome</th>
-          <th>Valor</th>
-          <th>Detalhes</th>
-      </tr>
-    </thead>
+  <div *ngIf="movements &&  movements.length > 0 ">
+    <table class="striped centered">
+      <thead>
+        <tr>
+            <th>#</th>
+            <th>Nome</th>
+            <th>Valor</th>
+            <th>Detalhes</th>
+        </tr>
+      </thead>
 
-    <tbody>
-      <tr *ngFor="let movem of movements">
-        <td>{{movem.id}}</td>
-        <td>{{movem.name}}</td>
-        <td>{{movem.value | currency: "BRL"}}</td>
-        <td>
-          <a [routerLink]="['/detail', movem.id]">
+      <tbody>
+        <tr *ngFor="let movem of movements">
+          <td>{{movem.id}}</td>
+          <td>{{movem.entry?.name}}</td>
+          <td>{{movem.value | currency: "BRL"}}</td>
+          <td>
+            <a [routerLink]="['/detail', movem.id]">
 
-            <i class="small material-icons" style="color: #455a64">pageview</i>
+              <i class="small material-icons" style="color: #455a64">pageview</i>
 
-          </a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-  <app-total-panel [total] = "this.total"> </app-total-panel>
+    <app-total-panel [total] = "this.total"> </app-total-panel>
+  </div>
+
+  <div *ngIf="!movements || movements!.length == 0">
+    <div class="row">
+      <div class="center-align">
+        <i class="col s12 material-icons large blue-grey-text text-darken-2">assignment</i>
+        <span class="col s12 flow-text">Não possui movimentos nesta competência!</span>
+
+        <a class="waves-effect blue-grey darken-2 btn"><i class="material-icons left">cloud</i>Gerar movimentos mensais com base nos lançamentos (EM CONSTRUÇÃO)</a>
+
+
+      </div>
+    </div>
+  </div>
+
 
 </div>

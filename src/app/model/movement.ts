@@ -1,12 +1,21 @@
+import { Entry } from './entry';
 export class Movement {
 
-  constructor(public id: number, public month: number, public year: number, public name: string, public value: number, public note: string) {
+  id?: number;
+  month?: number;
+  year?: number;
+  value?: number;
+  entry?: Entry;
+
+  constructor(o: Movement = {} as Movement) {
+
+    let{id = undefined , month = undefined, year = undefined, value = undefined, entry = undefined} = o;
+
     this.id = id;
     this.month = month;
     this.year = year;
-    this.name = name;
     this.value = value;
-    this.note = note;
+    this.entry = entry;
   }
 
 }
