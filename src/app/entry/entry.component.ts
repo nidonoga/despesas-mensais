@@ -1,3 +1,4 @@
+import { EntryService } from './../entry.service';
 import { Constants } from './../util/constants';
 import { Entry } from './../model/entry';
 import { Component, OnInit } from '@angular/core';
@@ -12,25 +13,28 @@ export class EntryComponent implements OnInit {
 
   entry!: Entry;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private entryService: EntryService) { }
 
   ngOnInit(): void {
     this.entry = new Entry();
-    M.textareaAutoResize($('#textarea-note'));
   }
 
   onSubmit() {
-    let entryes = this.loadEntryes();
-    let newEntry = new Entry({id:( entryes.length + 1), name: this.entry.name, note: this.entry.note, baseValue: this.entry.baseValue, payDay: this.entry.payDay, allMonth: this.entry.allMonth, type: this.entry.type});
-    entryes.push(newEntry);
-
-    let json = JSON.stringify(entryes);
-    localStorage[Constants.ENTRY_LIST_NAME] = json;
     /*
-    alert(this.entry.name + " - " + this.entry.note + " - " + this.entry.baseValue + " - " + this.entry.payDay + " - " + this.entry.allMonth + " - " + this.entry.type);
+    // SAVE COM OBSERVABLE
+    this.entryService.saveOrUpdate(this.entry).subscribe({
+      complete: () => this.router.navigate(['/entry-list']),
+      error: () => alert('Houve um erro!')
+    });
     */
 
-    this.router.navigate(['/entry-list'])
+    this.entryService.saveComPromise(this.entry)
+      .then( savedEntry => {
+        this.router.navigate(['/entry-list']);
+      })
+      .catch((e) => {
+        alert('Houve um erro: ' + e);
+      })
 
   }
 

@@ -39,7 +39,7 @@ registerLocaleData(ptBr);
     NgxMaskModule.forRoot()
   ],
   providers: [
-    {provide: LOCALE_ID, useValue: 'pt'}
+    {provide: LOCALE_ID, useValue: 'pt-BR'}
   ],
   bootstrap: [AppComponent]
 })

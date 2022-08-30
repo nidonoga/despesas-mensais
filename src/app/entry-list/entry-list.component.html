@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <div *ngIf="entryes &&  entryes.length > 0 " >
+  <div *ngIf="entries &&  entries.length > 0 " >
     <table class="striped centered">
       <thead>
         <tr>
@@ -21,7 +21,7 @@
       </thead>
 
       <tbody>
-        <tr *ngFor="let entry of entryes">
+        <tr *ngFor="let entry of entries">
           <td>{{entry.id}}</td>
           <td>{{entry.name}}</td>
           <td>{{entry.baseValue | currency: "BRL"}}</td>
@@ -36,7 +36,7 @@
   </div>
 
 
-  <div *ngIf="!entryes || entryes!.length == 0">
+  <div *ngIf="!entries || entries!.length == 0">
     <div class="row">
       <div class="center-align">
         <i class="col s12 material-icons large blue-grey-text text-darken-2">assignment</i>

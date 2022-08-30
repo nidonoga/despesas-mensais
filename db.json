@@ -1,0 +1,64 @@
+{
+  "entries": [
+    {
+      "name": "Teste",
+      "note": "testes",
+      "baseValue": 1000,
+      "payDay": "2022-06-10",
+      "allMonth": false,
+      "type": "SAIDA",
+      "id": 1
+    },
+    {
+      "name": "Testes pag",
+      "baseValue": 3200,
+      "payDay": "1988-06-10",
+      "allMonth": false,
+      "type": "SAIDA",
+      "id": 2
+    },
+    {
+      "name": "Testesetsetset",
+      "note": "asfdasdfasdf",
+      "baseValue": 2000,
+      "payDay": "1988-06-10",
+      "allMonth": false,
+      "type": "SAIDA",
+      "id": 3
+    },
+    {
+      "name": "Novo Teste",
+      "baseValue": 200,
+      "payDay": "1988-06-10",
+      "allMonth": false,
+      "type": "ENTRADA",
+      "id": 4
+    },
+    {
+      "name": "Teste",
+      "note": "testes",
+      "baseValue": 100,
+      "payDay": "1988-06-10",
+      "allMonth": true,
+      "type": "SAIDA",
+      "id": 5
+    },
+    {
+      "name": "Novo Super Teste",
+      "baseValue": 500,
+      "payDay": "2022-01-01",
+      "allMonth": false,
+      "type": "SAIDA",
+      "id": 6
+    },
+    {
+      "name": "Teste Promise",
+      "note": "stestestes",
+      "baseValue": 3000,
+      "payDay": "2022-01-01",
+      "allMonth": true,
+      "type": "SAIDA",
+      "id": 7
+    }
+  ]
+}
