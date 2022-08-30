@@ -1,3 +1,4 @@
+import { EntryService } from './../entry.service';
 import { Constants } from './../util/constants';
 import { Entry } from './../model/entry';
 import { Component, OnInit } from '@angular/core';
@@ -10,24 +11,29 @@ import {Router } from '@angular/router';
 })
 export class EntryListComponent implements OnInit {
 
-  entryes: Entry[] = [];
+  entries: Entry[] = [];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private entryService: EntryService) { }
 
   ngOnInit(): void {
-    let entryesTmp = this.loadEntryes();
-    if(entryesTmp != null) {
-      this.entryes = entryesTmp;
+
+    let entriesTmp = this.loadEntries();
+    if(entriesTmp != null) {
+      this.entries = entriesTmp;
     }
 
   }
 
-  loadEntryes() {
-    let jsonTmp = localStorage.getItem(Constants.ENTRY_LIST_NAME);
-    if(jsonTmp != null)
-      return JSON.parse(jsonTmp);
+  loadEntries() {
 
-    return null;
+    this.entryService.listEntry().subscribe(
+      (entries) => {
+        this.entries = entries;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
 }

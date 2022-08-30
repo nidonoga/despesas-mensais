@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
 
     return totalTmp;
   }
-
+/*
   createMovements() {
     let movementsTmp: Movement[] = [];
 
@@ -55,6 +55,7 @@ export class HomeComponent implements OnInit {
 
     return movementsTmp;
   }
+  */
 
   loadMovements() {
     let jsonTmp = localStorage.getItem('movements');
