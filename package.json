@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod --base-href=/despesas-mensais",
+    "build": "ng build --prod --base-href=/despesas-mensais/",
     "ghpages": "angular-cli-ghpages --dir=dist/despesas-mensais",
     "deploy": "npm run build & npm run ghpages",
     "watch": "ng build --watch --configuration development",
@@ -22,6 +22,7 @@
     "@angular/platform-browser": "^14.1.0",
     "@angular/platform-browser-dynamic": "^14.1.0",
     "@angular/router": "^14.1.0",
+    "angular-cli-ghpages": "^1.0.3",
     "httpclient": "^0.1.0",
     "json-server": "^0.17.0",
     "material-icons": "^1.11.8",
