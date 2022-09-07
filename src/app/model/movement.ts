@@ -5,17 +5,20 @@ export class Movement {
   month?: number;
   year?: number;
   value?: number;
-  entry?: Entry;
+  name?: string
+  entryId?: number;
+  type?: string;
 
   constructor(o: Movement = {} as Movement) {
 
-    let{id = undefined , month = undefined, year = undefined, value = undefined, entry = undefined} = o;
+    let{id = undefined , month = undefined, year = undefined, value = undefined, name = undefined, entryId = undefined, type = undefined} = o;
 
     this.id = id;
     this.month = month;
     this.year = year;
     this.value = value;
-    this.entry = entry;
+    this.name = name;
+    this.type = type;
   }
 
 }

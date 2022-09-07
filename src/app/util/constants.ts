@@ -3,4 +3,5 @@ export class Constants {
   public static readonly ENTRY_LIST_NAME = 'entryes';
 
   public static readonly URL_ENTRIES = 'http://localhost:3000/entries';
+  public static readonly URL_MOVEMENTS = 'http://localhost:3000/movements';
 }

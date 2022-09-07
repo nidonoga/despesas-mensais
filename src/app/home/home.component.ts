@@ -1,3 +1,6 @@
+import { forkJoin, Observable } from 'rxjs';
+import { MovementService } from './../movement.service';
+import { EntryService } from './../entry.service';
 import { Constants } from './../util/constants';
 
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,58 +18,249 @@ export class HomeComponent implements OnInit {
   testeTwoWayDataBindingInput = '';
   movements : Movement[] = [];
   total! : number;
+  month! : number;
+  year! : number;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private entryService: EntryService, private movementService: MovementService) {
 
   }
 
   ngOnInit(): void {
-    let movementsTmp = this.loadMovements();
-    if(movementsTmp != null){
-      this.movements = movementsTmp;
+    this.loadMovements();
+    this.recuperarMesAno();
+    this.inicializarCombosSelect();
+  }
+
+  calculateTotal() {
+    let totalTmp = 0;
+    this.movements.forEach(movement => {
+      if(movement.value != null) {
+        if(movement.type === 'ENTRADA'){
+          totalTmp += movement.value;
+        } else {
+          totalTmp -= movement.value;
+        }
+      }
+    });
+    this.total = totalTmp;
+  }
+
+  loadMovements() {
+    this.movements = [];
+    this.movementService.listMoviment().subscribe(
+      (movements) => {
+        movements.forEach(mov => {
+          if(this.movementInTheSameMonthAndYear(mov.month!, mov.year!)) {
+            this.movements.push(mov);
+          }
+        });
+
+        this.calculateTotal();
+
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+
+  recuperarMesAno() {
+    this.month = (new Date().getMonth() + 1);
+    this.year = new Date().getFullYear();
+  }
+
+  ngAfterViewInit() {
+
+  }
+
+  inicializarCombosSelect() {
+    var elems = document.querySelectorAll('select');
+    elems.forEach(sel => {
+      if(sel.name === 'select-month') {
+        sel.selectedIndex = this.month;
+      }
+
+    });
+    M.FormSelect.init(elems, {});
+  }
+
+  generateMonthlyMovements() {
+
+    this.movementService.listMoviment().subscribe(
+      (movements => {
+
+        if(this.haveMovementInTheSameMonthAndYear(movements)) {
+          this.loadMovements();
+        } else {
+          this.entryService.listEntry().subscribe(
+            (entries) => {
+              if(entries.length == 0) {
+                alert('Não encontrados lançamentos cadastrados.');
+
+              } else {
+                this.generateMovementByEntry(entries);
+              }
+
+            },
+            (error) => {
+              console.log(error);
+            }
+
+          );
+
+        }
+      }));
+  }
+
+  createMovement(entry :Entry): Movement {
+    let movement :Movement = new Movement();
+    movement.month = this.month;
+    movement.year = this.year;
+    movement.value = entry.baseValue;
+    movement.name = entry.name;
+    movement.entryId = entry.id;
+    movement.type = entry.type;
+    return movement;
+  }
+
+
+
+  loadEntries(): Entry[] {
+    let entries: Entry[] = [];
+    this.entryService.listEntry().subscribe(
+      (entr) => {
+        entries = entr;
+      }
+    );
+    return entries;
+  }
+
+
+  instanciarData(data: Date): Date {
+    if(data !== undefined) {
+      return new Date(data);
     }
 
 
-    this.total = this.calculateTotal(this.movements);
+    return new Date()
   }
 
-  calculateTotal(movements: Movement[]) {
-    let totalTmp = 0;
-    movements.forEach(movement => {
-      if(movement.value != null) {
-        totalTmp += movement.value;
+  generateMovementByEntry(entries: Entry[]) {
+    let tmp = [];
+    for (let index = 0; index < entries.length; index++) {
+      console.log(entries[index]);
+      if(entries[index].allMonth || this.entryInTheSameMonth(entries[index].payDay)) {
+        tmp.push(this.movementService.saveOrUpdate(this.createMovement(entries[index])));
       }
+    }
+
+    forkJoin(tmp).subscribe({
+      complete: () => this.loadMovements()
     });
 
-    return totalTmp;
-  }
-/*
-  createMovements() {
-    let movementsTmp: Movement[] = [];
-
-    movementsTmp.push(new Movement({id: 1, month: 1, year: 2022, value: 3000.00, entry: new Entry({id: 1, name: "Pagamento", note: "Salario liquido do mês", baseValue: 3000.00, payDay: new Date("2019-01-16"), allMonth: true, type: "entrada"})}));
-    movementsTmp.push(new Movement({id: 2, month: 1, year: 2022, value: -200.00, entry: new Entry({id: 2, name: "Internet", note: "Despesa fixa paga todo mês", baseValue: -200.00, payDay: new Date("2019-01-16"), allMonth: true, type: "entrada"})}));
-    movementsTmp.push(new Movement({id: 3, month: 1, year: 2022, value: -100.00, entry: new Entry({id: 3, name: "Telefone", note: "Despesa fixa paga todo mês", baseValue: -100.00, payDay: new Date("2019-01-16"), allMonth: true, type: "entrada"})}));
-    movementsTmp.push(new Movement({id: 4, month: 1, year: 2022, value: -150.00, entry: new Entry({id: 4, name: "Lúz", note: "Despesa variável paga todo mês", baseValue: -150.00, payDay: new Date("2019-01-16"), allMonth: true, type: "entrada"})}));
-    movementsTmp.push(new Movement({id: 5, month: 1, year: 2022, value: -80.00, entry: new Entry({id: 5, name: "Água", note: "Despesa variável paga todo mês", baseValue: -80.00, payDay: new Date("2019-01-16"), allMonth: true, type: "entrada"})}));
-
-    let json = JSON.stringify(movementsTmp);
-    localStorage[Constants.MOVIMENT_LIST_NAME] = json;
-
-    return movementsTmp;
-  }
-  */
-
-  loadMovements() {
-    let jsonTmp = localStorage.getItem('movements');
-    if(jsonTmp != null)
-      return JSON.parse(jsonTmp);
-
-    return null;
   }
 
-  gerarMovimentos() {
+  entryInTheSameMonth(payDayEntry: Date | undefined): boolean {
 
+    if(payDayEntry === undefined) {
+      return false
+    }
+
+
+    let sameMonth :boolean = false;
+    let sameYear :boolean = false;
+
+    const [year, month, day] = payDayEntry.toString().split('-');
+    const payDay = new Date(+year, +month - 1, +day);
+
+    let payDayMonth = payDay.getMonth() + 1;
+    let payDayYear = payDay.getFullYear();
+
+    if(payDayMonth == this.month){
+      sameMonth = true;
+    }
+
+    if(payDayYear === this.year){
+      sameYear = true;
+    }
+
+    return sameMonth && sameYear;
+  }
+
+
+  deleteMonthlyMovements() {
+    this.movementService.listMoviment().subscribe(
+      (movements) => {
+        this.deleteMovementOfPeriod(movements);
+      }
+    )
+
+  }
+
+  deleteMovementOfPeriod(movements :Movement[]) {
+    let arrayObservableDelete = [];
+    for (let index = 0; index < movements.length; index++) {
+      if(this.movementInTheSameMonthAndYear(movements[index].month!, movements[index].year!)) {
+        arrayObservableDelete.push(this.movementService.delete(movements[index].id!));
+      }
+    }
+
+    forkJoin(arrayObservableDelete).subscribe({
+      complete: () => this.loadMovements()
+    });
+
+  }
+
+  movementInTheSameMonthAndYear(movMonth :number, movYear :number) :boolean {
+
+    let sameMonth :boolean = false;
+    let sameYear :boolean = false;
+
+    if(movMonth == this.month) {
+      sameMonth = true;
+    }
+
+    if(movYear === this.year) {
+      sameYear = true;
+    }
+
+    return sameMonth && sameYear;
+  }
+
+  loadMovementsByMonthAndYear() {
+    this.movements = [];
+    this.movementService.listMoviment().subscribe(
+      (movements) => {
+        if(movements.length === 0){
+          alert('Não encontrados movimentos para o período informado');
+        } else {
+
+          movements.forEach(mov => {
+            if(this.movementInTheSameMonthAndYear(mov.month!, mov.year!)) {
+              this.movements.push(mov);
+            }
+          });
+          this.calculateTotal();
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+
+  haveMovementInTheSameMonthAndYear(movements :Movement[]):boolean {
+    let haveMovementInTheSameMontAndYear = false;
+    movements.forEach(mov => {
+      if(this.movementInTheSameMonthAndYear(mov.month!, mov.year!)){
+        haveMovementInTheSameMontAndYear = true;
+      }
+
+    });
+
+    return haveMovementInTheSameMontAndYear;
   }
 
 }

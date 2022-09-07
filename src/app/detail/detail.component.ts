@@ -1,3 +1,5 @@
+import { getTestBed } from '@angular/core/testing';
+import { MovementService } from './../movement.service';
 import { Movement } from './../model/movement';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -10,30 +12,17 @@ import { Component, OnInit } from '@angular/core';
 export class DetailComponent implements OnInit {
   movimento!: Movement;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private movementService: MovementService) { }
 
   ngOnInit(): void {
 
     let idParam = this.route.snapshot.params['id'];
 
-    // this.movimento = new Movement(idParam, 12, 2022, "teste", 1200, "testes");
-    this.movimento = this.loadMovement(idParam);
+    this.movementService.getById(idParam).subscribe(
+      (mov) => {
+        this.movimento = mov;
+      }
+    );
 
   }
-
-  loadMovement(idParam: number) {
-    let jsonTmp = localStorage.getItem('movements');
-    let movementTmp = new Movement();
-    if(jsonTmp != null) {
-      var locations: Array<Movement> = JSON.parse(jsonTmp);
-      locations.forEach(element => {
-        if(element.id != null &&  element.id == idParam) {
-          movementTmp = element;
-        }
-      });
-    }
-
-    return movementTmp;
-  }
-
 }
