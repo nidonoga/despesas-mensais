@@ -1,42 +1,84 @@
 <div class="container expenses">
+  <div class="row" style="text-align: right; margin-bottom: 1em; margin-top: 2em">
+    <div class="input-field col s8"></div>
+    <div class="input-field col s2">
+      <select id="select-month" name="select-month" [(ngModel)]="this.month">
+        <option value="" disabled selected>Selecione o mês</option>
+        <option value="1">Janeiro</option>
+        <option value="2">Fevereiro</option>
+        <option value="3">Março</option>
+        <option value="4">Abril</option>
+        <option value="5">Maio</option>
+        <option value="6">Junho</option>
+        <option value="7">Julho</option>
+        <option value="8">Agosto</option>
+        <option value="9">Setembro</option>
+        <option value="10">Outubro</option>
+        <option value="11">Novembro</option>
+        <option value="12">Dezembro</option>
+      </select>
+    </div>
 
+    <div class="input-field col s1">
+      <div style="text-align: right !important">
+        <input
+          id="input-year"
+          name="input-year"
+          type="text"
+          [(ngModel)]="this.year"
+        />
+      </div>
+    </div>
 
-
-  <div class="row">
-    <div class="col s12" style="text-align: right;margin-bottom: 1em;margin-top: 2em;">
-      <h4>Janeiro/2022</h4>
+    <div class="input-field col s1" style="text-align: left">
+      <button
+        class="btn waves-effect waves-light blue-grey darken-2"
+        (click)="loadMovementsByMonthAndYear()">
+        <i class="material-icons right" style="margin-left: 0px">search</i>
+      </button>
     </div>
   </div>
 
-
-  <div *ngIf="movements &&  movements.length > 0 ">
+  <div *ngIf="movements && movements.length > 0">
     <table class="striped centered">
       <thead>
         <tr>
-            <th>#</th>
-            <th>Nome</th>
-            <th>Valor</th>
-            <th>Detalhes</th>
+          <th>#</th>
+          <th>Nome</th>
+          <th>Valor</th>
+          <th>Detalhes</th>
         </tr>
       </thead>
 
       <tbody>
         <tr *ngFor="let movem of movements">
-          <td>{{movem.id}}</td>
-          <td>{{movem.entry?.name}}</td>
-          <td>{{movem.value | currency: "BRL"}}</td>
+          <td>{{ movem.id }}</td>
+          <td>{{ movem.name }}</td>
+          <td>{{ movem.value | currency: "BRL" }}</td>
           <td>
             <a [routerLink]="['/detail', movem.id]">
-
-              <i class="small material-icons" style="color: #455a64">pageview</i>
-
+              <i class="small material-icons" style="color: #455a64"
+                >pageview</i
+              >
             </a>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <app-total-panel [total] = "this.total"> </app-total-panel>
+    <app-total-panel [total]="this.total"> </app-total-panel>
+
+    <div class="row" style="text-align: rigth;">
+
+      <button
+        class="btn waves-effect waves-light blue-grey darken-2"
+        (click)="deleteMonthlyMovements()">
+        Excluír Período
+        <i class="material-icons left" style="margin-left: 0px">delete</i>
+    </button>
+
+    </div>
+
   </div>
 
   <div *ngIf="!movements || movements!.length == 0">
@@ -45,12 +87,15 @@
         <i class="col s12 material-icons large blue-grey-text text-darken-2">assignment</i>
         <span class="col s12 flow-text">Não possui movimentos nesta competência!</span>
 
-        <a class="waves-effect blue-grey darken-2 btn"><i class="material-icons left">cloud</i>Gerar movimentos mensais com base nos lançamentos (EM CONSTRUÇÃO)</a>
 
+        <button
+          class="btn waves-effect waves-light blue-grey darken-2"
+          (click)="generateMonthlyMovements()">
+          Gerar movimentos mensais com base nos lançamentos
+          <i class="material-icons left" style="margin-left: 0px">cloud</i>
+        </button>
 
       </div>
     </div>
   </div>
-
-
 </div>

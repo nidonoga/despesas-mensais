@@ -75,4 +75,8 @@ export class EntryService {
     });
     return promise;
   }
+
+  delete(id: number): Observable<Entry> {
+    return this.httpClient.delete<Entry>(`${this.URL}/${id}`, this.httpOptions);
+  }
 }

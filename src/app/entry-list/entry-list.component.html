@@ -17,6 +17,8 @@
             <th>Valor</th>
             <th>Vencimento</th>
             <th>Tipo</th>
+            <th>Todo Mês</th>
+            <th>Excluir</th>
         </tr>
       </thead>
 
@@ -28,7 +30,19 @@
 
           <td>{{entry.payDay | date:'shortDate'}}</td>
           <td>{{entry.type}}</td>
+          <td>{{entry.allMonth?'Sim':'Não'}}</td>
 
+          <td>
+            <a>
+              <i class="small material-icons" style="color: #455a64" (click)="deleteEntry(entry.id!)">delete</i>
+            </a>
+          </td>
+
+          <td>
+            <a [routerLink]="['/entry', entry.id]">
+              <i class="small material-icons" style="color: #455a64">edit</i>
+            </a>
+          </td>
 
         </tr>
       </tbody>

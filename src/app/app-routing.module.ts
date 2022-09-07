@@ -9,6 +9,7 @@ const routes: Routes = [
   {path: 'detail/:id', component: DetailComponent},
   {path: 'entry-list', component: EntryListComponent},
   {path: 'entry', component: EntryComponent},
+  {path: 'entry/:id', component: EntryComponent},
   {path: '', component: HomeComponent}
 
 ];

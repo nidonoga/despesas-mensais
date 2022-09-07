@@ -36,4 +36,11 @@ export class EntryListComponent implements OnInit {
     );
   }
 
+  deleteEntry(id :number) {
+    this.entryService.delete(id).subscribe({
+      complete: () => this.loadEntries()
+    });
+
+  }
+
 }
