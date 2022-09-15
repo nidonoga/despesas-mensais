@@ -5,7 +5,7 @@ Este projeto tem como objetivo implementar uma aplicação web para o controle d
 
 # Endereço de Deploy - GitHub Pages
 
-https://github.com/nidonoga/despesas-mensais
+https://nidonoga.github.io/despesas-mensais/
 
 # Protótipo
 
